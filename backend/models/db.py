@@ -5,9 +5,11 @@ def init_db():
     cursor = conn.cursor()
 
     try:
+        cursor.execute('DROP TABLE IF EXISTS lançamento')
         cursor.execute('''
-            CREATE TABLE IF NOT EXISTS gastos (
+            CREATE TABLE lançamento (
                 id          INTEGER PRIMARY KEY AUTOINCREMENT,
+                tipo        TEXT,
                 valor       REAL,
                 categoria   TEXT,
                 descricao   TEXT,
@@ -16,11 +18,12 @@ def init_db():
             )
         ''')
     except Exception as e:
-        print(f"Erro na tabela gastos: {e}")
+        print(f"Erro na tabela lançamento: {e}")
 
     try:
+        cursor.execute('DROP TABLE IF EXISTS categorias')
         cursor.execute('''
-            CREATE TABLE IF NOT EXISTS categorias (
+                    CREATE TABLE categorias (
                 id          INTEGER PRIMARY KEY AUTOINCREMENT,
                 nome        TEXT,
                 cor         TEXT,
@@ -31,8 +34,9 @@ def init_db():
         print(f"Erro na tabela categorias: {e}")
 
     try:
+        cursor.execute('DROP TABLE IF EXISTS config')
         cursor.execute('''
-            CREATE TABLE IF NOT EXISTS config (
+                    CREATE TABLE config (
                 chave       TEXT PRIMARY KEY,
                 valor       TEXT
             )
