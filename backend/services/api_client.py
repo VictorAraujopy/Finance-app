@@ -2,8 +2,18 @@ import requests
 from datetime import datetime
 import pytz
 
+_cache = None        
+_cache_time = None
 
 def buscar_cotacoes():
+
+    global _cache, _cache_time   
+
+    if _cache is not None and _cache_time is not None:
+        agora = datetime.now(pytz.timezone("America/Sao_Paulo"))
+        diferenca = (agora - _cache_time).total_seconds()
+        if diferenca < 60:
+            return _cache
 
     try:
         dolar = requests.get("https://economia.awesomeapi.com.br/json/USD-BRL")
@@ -31,11 +41,11 @@ def buscar_cotacoes():
     except Exception as e:
         print(f"Erro ao buscar horario: {e}")
 
-
-    return {
+    _cache = {
         "usd_brl": float(valor_dolar) if valor_dolar is not None else None,
         "btc_brl": valor_bitcoin if valor_bitcoin is not None else None,
         "updated_at": hora
     }
-
+    _cache_time = datetime.now(pytz.timezone("America/Sao_Paulo"))
+    return _cache
 buscar_cotacoes()
