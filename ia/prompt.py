@@ -38,7 +38,7 @@ def montar_prompt(kpis: dict, cotacoes: dict) -> str:
         linhas.append(f"  {cat}: {dados['pct_renda']:.1f}% ({sinal}{abs(variacao):.0f}% vs mês anterior)")
 
     if kpis.get("alerta_critico"):
-        linhas.append(f"\nALERTA: gastos em {kpis['alerta_critico']:.0f}% da renda")
+        linhas.append(f"\n ALERTA: gastos em {kpis['alerta_critico']:.0f}% da renda")
 
 
     linhas += [
@@ -49,4 +49,4 @@ def montar_prompt(kpis: dict, cotacoes: dict) -> str:
     ]
 
 
-    return "/n".join(linhas)
+    return "\n".join(linhas)
