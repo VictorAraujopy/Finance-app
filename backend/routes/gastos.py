@@ -15,20 +15,21 @@ def adicionar_gasto():
         descricao = data.get('descricao')
         data_lancamento = data.get('data')
 
-        conn = sqlite3.connect(DB)
-        cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO lancamento (tipo, valor, categoria, descricao, data, criado_em)
-            VALUES (?, ?, ?, ?, ?, datetime('now'))
-        ''', (tipo, valor, categoria, descricao, data_lancamento))
-        conn.commit()
-        conn.close()
+        if not tipo or not valor:
+            return jsonify({'error': 'tipo e valor são obrigatórios'}), 400
+
+        with sqlite3.connect(DB) as conn:
+            cursor = conn.cursor()
+            cursor.execute('''
+                INSERT INTO lancamento (tipo, valor, categoria, descricao, data, criado_em)
+                VALUES (?, ?, ?, ?, ?, datetime('now'))
+            ''', (tipo, valor, categoria, descricao, data_lancamento))
+            conn.commit()
 
         return jsonify({'message': 'Gasto adicionado com sucesso'}), 201
     
     except Exception as e:
         print(f"Erro ao adicionar gasto: {e}")  
     return jsonify({'error': str(e)}), 500
-
 
 
