@@ -5,9 +5,9 @@ def init_db():
     cursor = conn.cursor()
 
     try:
-        cursor.execute('DROP TABLE IF EXISTS lançamento')
+        cursor.execute('DROP TABLE IF EXISTS lancamento')
         cursor.execute('''
-            CREATE TABLE lançamento (
+            CREATE TABLE lancamento (
                 id          INTEGER PRIMARY KEY AUTOINCREMENT,
                 tipo        TEXT,
                 valor       REAL,
@@ -18,7 +18,7 @@ def init_db():
             )
         ''')
     except Exception as e:
-        print(f"Erro na tabela lançamento: {e}")
+        print(f"Erro na tabela lancamento: {e}")
 
     try:
         cursor.execute('DROP TABLE IF EXISTS categorias')
