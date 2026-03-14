@@ -54,4 +54,3 @@ def buscar_cotacoes():
         }
         _cache_time = datetime.now(pytz.timezone("America/Sao_Paulo"))
         return _cache
-buscar_cotacoes()
