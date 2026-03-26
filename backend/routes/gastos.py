@@ -73,3 +73,15 @@ def atualizar_gasto(id):
         print(f"Erro ao atualizar gasto: {e}")
         return jsonify({'error': str(e)}), 500
 
+@gastos_bp.route('/api/gastos/<int:id>', methods=['DELETE'])
+def deletar_gasto(id):
+    try:
+        with sqlite3.connect(DB) as conn:
+            cursor = conn.cursor()
+            cursor.execute('''DELETE FROM lancamento WHERE id=?''', (id,))
+            conn.commit()
+            return jsonify({'message': 'Gasto eliminado com sucesso'}), 200
+
+    except Exception as e:
+        print(f"Erro ao eliminar gasto: {e}")
+        return jsonify({'error': str(e)}), 500
